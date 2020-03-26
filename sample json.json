@@ -1,0 +1,72 @@
+{
+	"Name": "John Smith",
+	"DOB": "1965-01-11",
+	"Gender": "Male",
+	"Residence": "Pennsylvania",
+	"NumberOfCessions": 1,
+
+	"Cessions": [
+		{
+			"Number": 1515196675,
+			"Sequence": 1,
+			"CedingCompany": "Pacific Life Insurance Company",
+			"LegalEntity": "Pacific Life Insurance Company",
+			"Histories": [
+				{
+					"EffectiveDate": "05/09/2011",
+					"CancelDate": "05/08/2012",
+					"RetentionLimit": {
+						"BaseNAAR": 160019.00,
+						"BaseReinsured": 180000.00,
+						"IssueAge": 36,
+						"Duration": 19,
+						"MaxGradedRetentionLimit": 3000000.00,
+						"TableNumber": 0,
+						"TableName": "ExperienceRateTable",
+						"IsExcludedFromRetention": false,
+						"IsEligibleForRecapture": true,
+						"JointType": "Single"
+					},
+					"Pool": {
+						"PoolName": "Auto Pool 1996",
+						"PoolType": "Auto",
+						"PlanName": "All Single Life Plans",
+						"BindingType": "Auto",
+						"CountryRatingGroup": "EverestGroup - U"
+					},
+					"Stack": {
+						"StackName": "FlowD USMO SLACtoSLI SLI Retro",
+						"ReinsuranceType": "COINS",
+						"RetainedRatio": 0.95,
+						"NAARToAllocate": 160019.00,
+						"CededToAllocate": 180000.00
+					},
+					"Splits": {
+						"Header": "Retro Company, Split Category, Split Amount, Ceded Amount",
+						"RowData": [
+							"AXA Equitable Life Insurance Company, Pool, 57.606,84$, 64.800,00$",
+							"Berkshire Hathaway Life Insurance Company of Nebraska, Pool, 19.2020,28$, 72.000,00$",
+							"Pacific Life Insurance Company, Pool, 64.007,60$, 21.600,00$",
+							"SGLUSA, Stack, 9.601,14$, 10.800,00$"
+						]
+					},
+					"PriorsPosts": {
+						"Priors": {
+							"RetainedNAAR": 2502470.00,
+							"RetainedCeded": 3000000.00,
+							"AffiliateNAAR": 2502470.00,
+							"AffiliateCeded": 3000000.00
+						},
+						"Posts": {
+							"RetainedNAAR": 0.00,
+							"RetainedCeded": 0.00
+						}
+					},
+					"Verbose": "Gap period between 07/01/2018 and 08/01/2018 was found and mocked. \n Found 95 split and removed 45 because of black-out period. \n Stack participant \"SCOR Global Life Americas Reinsurance Company\" gets 25.0000% of Naar: $9,000.00, Ceded: $9,000.00 which is Naar: $2,250.00, Ceded: $2,250.00. \n Retention capacity was Naar: $79,228,162.00, Ceded: $79,228,162.00. \n Remaining allocation amount was Naar: $9,000.00, Ceded: $9,000.00. \n Pool Player \"Pacific Life Reinsurance Company\" gets 75.0000% of Naar: $9,000.00, Ceded: $9,000.00 which is Naar: $6,750.00, Ceded: $6,750.00. \n Retention capacity was Naar: $79,228,162.00, Ceded: $79,228,162.00. \n Remaining allocation amount was Naar: $6,750.00, Ceded: $6,750.00."
+				}
+			]
+		}
+	]
+}
+
+
