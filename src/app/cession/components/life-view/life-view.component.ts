@@ -1,128 +1,165 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  ViewEncapsulation,
-  ViewChild,
-  ElementRef
-} from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import * as shape from "d3-shape";
-import { Edge, Node, ClusterNode, Layout } from "@swimlane/ngx-graph";
-import { nodes, clusters, links } from "../../services/data1";
-import { Subject } from "rxjs";
+import { Edge, Node, ClusterNode } from "@swimlane/ngx-graph";
+import { nodes, links } from "../../services/data1";
+import { Subject, onErrorResumeNext } from "rxjs";
+import { CessionService } from "../../services/cession.service";
+import { Person } from "../../models/cession.model";
 @Component({
   selector: "life-view",
-
   templateUrl: "./life-view.component.html",
   styleUrls: ["./life-view.component.css"]
 })
 export class LifeViewComponent implements OnInit {
-  name = "Crone Tree Demo";
+  constructor(private _cessionService: CessionService) {}
 
+  // graph info
   nodes: Node[] = nodes;
-  clusters: ClusterNode[] = clusters;
-
   links: Edge[] = links;
-
-  layout: String | Layout = "d3ForceDirected";
-  layouts: any[] = [
-    {
-      label: "D3 Force Directed",
-      value: "d3ForceDirected"
-    },
-    {
-      label: "D3 dagreCluster",
-      value: "dagreCluster"
-    },
-    ,
-    {
-      label: "D3 dagre",
-      value: "dagre"
-    }
-  ];
-
-  // line interpolation
-  curveType: string = "Linear";
+  layout: String = "dagre";
   curve: any = shape.curveLinear;
-  interpolationTypes = [
-    "Bundle",
-    "Cardinal",
-    "Catmull Rom",
-    "Linear",
-    "Monotone X",
-    "Monotone Y",
-    "Natural",
-    "Step",
-    "Step After",
-    "Step Before"
-  ];
-
-  draggingEnabled: boolean = false;
-  panningEnabled: boolean = false;
+  draggingEnabled: boolean = true;
+  panningEnabled: boolean = true;
   zoomEnabled: boolean = false;
-
-  zoomSpeed: number = 0.1;
-  minZoomLevel: number = 0.1;
-  maxZoomLevel: number = 4.0;
-  panOnZoom: boolean = true;
-
   autoZoom: boolean = false;
   autoCenter: boolean = true;
-
   update$: Subject<boolean> = new Subject();
   center$: Subject<boolean> = new Subject();
   zoomToFit$: Subject<boolean> = new Subject();
 
-  ngOnInit() {
-    this.setInterpolationType(this.curveType);
+  nodes1: Node[] = [];
+  links1: Edge[] = [];
+  // cession info
+  cessonsForLife: Person;
+
+  // node id's
+  personId: string = "person";
+  cessionId: string = "cession";
+  cessionLinkId: string = "cessionLink";
+  splitId: string = "split";
+  splitLinkId: string = "splitLink";
+  poolId: string = "pool";
+  poolLinkId: string = "poolLink";
+  stackId: string = "stack";
+  stackLinkId: string = "stackLink";
+  cessionOverrideId: string = "cessionOveride";
+  cessionOverrideLinkId: string = "cessionOverrideLink";
+  cessionHistoryId: "cessionHistory";
+  cessionHistoryLinkId: "cessionHistoryLink";
+
+  async ngOnInit() {
+    this.cessonsForLife = await this._cessionService.getCessionInfo(123);
+    this.ConvertCessionToGraph(this.cessonsForLife);
   }
 
-  setInterpolationType(curveType) {
-    this.curveType = curveType;
-    if (curveType === "Bundle") {
-      this.curve = shape.curveBundle.beta(1);
-    }
-    if (curveType === "Cardinal") {
-      this.curve = shape.curveCardinal;
-    }
-    if (curveType === "Catmull Rom") {
-      this.curve = shape.curveCatmullRom;
-    }
-    if (curveType === "Linear") {
-      this.curve = shape.curveLinear;
-    }
-    if (curveType === "Monotone X") {
-      this.curve = shape.curveMonotoneX;
-    }
-    if (curveType === "Monotone Y") {
-      this.curve = shape.curveMonotoneY;
-    }
-    if (curveType === "Natural") {
-      this.curve = shape.curveNatural;
-    }
-    if (curveType === "Step") {
-      this.curve = shape.curveStep;
-    }
-    if (curveType === "Step After") {
-      this.curve = shape.curveStepAfter;
-    }
-    if (curveType === "Step Before") {
-      this.curve = shape.curveStepBefore;
-    }
+  ConvertCessionToGraph(person: Person) {
+    this.nodes1.push({ id: this.personId, label: person.Name, data: person });
+
+    // Add Cessions to Person Node
+    let currentCession = 1;
+    person.Cessions.forEach(cession =>
+      this.addCession(cession, currentCession++)
+    );
+
+    // Add Splits to Person Node
+    let currentSplit = 1;
+    person.Splits.forEach(split => this.addSplit(split, currentSplit++));
+
+    // Add Cession Overide
+    this.addCessionOverride(person.CessionOverride);
   }
 
-  setLayout(layoutName: string): void {
-    const layout = this.layouts.find(l => l.value === layoutName);
-    this.layout = layoutName;
-    if (!layout.isClustered) {
-      this.clusters = undefined;
-    } else {
-      this.clusters = clusters;
-    }
+  addCessionOverride(cessionOverride) {
+    this.nodes1.push({
+      id: this.cessionOverrideId,
+      label: cessionOverride.Name,
+      data: cessionOverride
+    });
+    this.links1.push({
+      id: this.cessionOverrideLinkId,
+      source: this.personId,
+      target: this.cessionOverrideId
+    });
+  }
+  addSplit(split, currentSplit) {
+    this.nodes1.push({
+      id: this.splitId + currentSplit.toString(),
+      label: split.Header,
+      data: split
+    });
+    this.links1.push({
+      id: this.splitLinkId + currentSplit.toString(),
+      source: this.personId,
+      target: this.splitId + currentSplit.toString()
+    });
+  }
+
+  addCession(cession, currentCession) {
+    this.nodes1.push({
+      id: this.cessionId + currentCession.toString(),
+      label: cession.Number.toString(),
+      data: cession
+    });
+
+    this.links1.push({
+      id: this.cessionLinkId + currentCession.toString(),
+      source: this.personId,
+      target: this.cessionId + currentCession.toString()
+    });
+
+    // Add Cession History
+    let currentCessionHistory = 1;
+    cession.CessionHistory.forEach(cessionHistory =>
+      this.addCessionHistory(
+        cessionHistory,
+        currentCessionHistory++,
+        currentCession
+      )
+    );
+    this.addPool(cession, currentCession);
+    this.addStack(cession, currentCession);
+  }
+
+  addCessionHistory(cessionHistory, currentCessionHistory, currentCession) {
+    this.nodes1.push({
+      id: this.cessionHistoryId + currentCessionHistory.toString(),
+      label: cessionHistory.Number,
+      data: cessionHistory
+    });
+    this.links1.push({
+      id: this.cessionHistoryLinkId + currentCessionHistory.toString(),
+      source: this.cessionId + currentCession.toString(),
+      target: this.cessionHistoryId + currentCession.toString()
+    });
+  }
+  addPool(cession, currentCession) {
+    this.nodes1.push({
+      id: this.poolId + currentCession.toString(),
+      label: cession.Pool.PoolName,
+      data: cession.Pool
+    });
+    this.links1.push({
+      id: this.poolLinkId + currentCession.toString(),
+      source: this.cessionId + currentCession.toString(),
+      target: this.poolId + currentCession.toString()
+    });
+  }
+
+  addStack(cession, currentCession) {
+    this.nodes1.push({
+      id: this.stackId + currentCession.toString(),
+      label: cession.Stack.StackName,
+      data: cession.Stack
+    });
+    this.links1.push({
+      id: this.stackLinkId + currentCession.toString(),
+      source: this.cessionId + currentCession.toString(),
+      target: this.stackId + currentCession.toString()
+    });
   }
 
   select($event) {
     console.info($event);
-    alert("Whew SELECT");
+    alert("NODE SELECTED1");
   }
 }

@@ -1,0 +1,45 @@
+{
+  "Name": "John Smith",
+  "DOB": "1965-01-11",
+  "Gender": "Male",
+  "Residence": "Pennsylvania",
+  "NumberOfCessions": 1,
+
+  "Cessions": [
+    {
+      "Number": 1515196675,
+      "Sequence": 1,
+      "CedingCompany": "Pacific Life Insurance Company",
+      "LegalEntity": "Pacific Life Insurance Company",
+
+      "Pool": {
+        "PoolName": "Auto Pool 1996",
+        "PoolType": "Auto",
+        "PlanName": "All Single Life Plans",
+        "BindingType": "Auto",
+        "CountryRatingGroup": "EverestGroup - U"
+      },
+      "Stack": {
+        "StackName": "FlowD USMO SLACtoSLI SLI Retro",
+        "ReinsuranceType": "COINS",
+        "RetainedRatio": 0.95,
+        "NAARToAllocate": 160019.0,
+        "CededToAllocate": 180000.0
+      },
+      "CessionHistory": [],
+      "CessionTransactions": [],
+      "RetroCession": {
+        "RetroTransactions": [],
+        "RetroTransactionStaging": []
+      }
+    }
+  ],
+  "Splits": [
+    {
+      "Header": "Split"
+    }
+  ],
+  "CessionOverride": {
+    "Name": "Cession Override"
+  }
+}

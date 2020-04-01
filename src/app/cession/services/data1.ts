@@ -322,10 +322,10 @@ export const links: Edge[] = [
   }
 ];
 
-export const clusters: ClusterNode[] = [
-  {
-    id: "cluster0",
-    label: "Cluster node",
-    childNodeIds: ["2", "3"]
-  }
-];
+// export const clusters: ClusterNode[] = [
+//   {
+//     id: "cluster0",
+//     label: "Cluster node",
+//     childNodeIds: ["2", "3"]
+//   }
+// ];

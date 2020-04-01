@@ -69,7 +69,7 @@ declare module models {
     Histories: History[];
   }
 
-  export interface RootObject {
+  export interface Person {
     Name: string;
     DOB: string;
     Gender: string;

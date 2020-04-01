@@ -11,7 +11,7 @@ import {
 } from "@angular/cdk/overlay";
 import { MdePopoverModule } from "@material-extended/mde";
 import { LifeViewComponent } from "./cession/components/life-view/life-view.component";
-
+import { HttpClientModule } from "@angular/common/http";
 @NgModule({
   imports: [
     BrowserModule,
@@ -20,7 +20,8 @@ import { LifeViewComponent } from "./cession/components/life-view/life-view.comp
     ReactiveFormsModule,
     MaterialModule,
     NgxGraphModule,
-    MdePopoverModule
+    MdePopoverModule,
+    HttpClientModule
   ],
   providers: [
     {

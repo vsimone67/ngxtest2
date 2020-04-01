@@ -7,18 +7,13 @@
 
   <mat-drawer-content>
     <div class="page">
-      <ngx-graph [links]="links"
-                 [nodes]="nodes"
-                 [clusters]="clusters"
+      <ngx-graph [links]="links1"
+                 [nodes]="nodes1"
                  [layout]="layout"
                  [curve]="curve"
                  [draggingEnabled]="draggingEnabled"
                  [panningEnabled]="panningEnabled"
                  [enableZoom]="zoomEnabled"
-                 [zoomSpeed]="zoomSpeed"
-                 [minZoomLevel]="minZoomLevel"
-                 [maxZoomLevel]="maxZoomLevel"
-                 [panOnZoom]="panOnZoom"
                  [autoZoom]="autoZoom"
                  [autoCenter]="autoCenter"
                  [update$]="update$"
