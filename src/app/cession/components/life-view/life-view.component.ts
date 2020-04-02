@@ -17,6 +17,7 @@ export class LifeViewComponent implements OnInit {
   nodes: Node[] = nodes;
   links: Edge[] = links;
   layout: String = "dagre";
+  //layout: String = "d3ForceDirected";
   curve: any = shape.curveLinear;
   draggingEnabled: boolean = true;
   panningEnabled: boolean = true;
@@ -44,8 +45,12 @@ export class LifeViewComponent implements OnInit {
   stackLinkId: string = "stackLink";
   cessionOverrideId: string = "cessionOveride";
   cessionOverrideLinkId: string = "cessionOverrideLink";
-  cessionHistoryId: "cessionHistory";
-  cessionHistoryLinkId: "cessionHistoryLink";
+  cessionHistoryId: string = "cessionHistory";
+  cessionHistoryLinkId: string = "cessionHistoryLink";
+  cessionTransactionId: string = "cessionTransaction";
+  cessionTransactionLinkId: string = "cessionTransactionLink";
+  cessionRetroCessionId: string = "retroCession";
+  cessionRetroCessionLinkId: string = "retroCessionLink";
 
   async ngOnInit() {
     this.cessonsForLife = await this._cessionService.getCessionInfo(123);
@@ -67,6 +72,48 @@ export class LifeViewComponent implements OnInit {
 
     // Add Cession Overide
     this.addCessionOverride(person.CessionOverride);
+  }
+
+  addCession(cession, currentCession) {
+    this.nodes1.push({
+      id: this.cessionId + currentCession.toString(),
+      label: cession.Number.toString(),
+      data: cession
+    });
+
+    this.links1.push({
+      id: this.cessionLinkId + currentCession.toString(),
+      source: this.personId,
+      target: this.cessionId + currentCession.toString()
+    });
+
+    // Add Cession History
+    let currentCessionHistory = 1;
+    cession.CessionHistory.forEach(cessionHistory =>
+      this.addCessionHistory(
+        cessionHistory,
+        currentCessionHistory++,
+        currentCession
+      )
+    );
+
+    // Add Cession Transaction
+    let currentCessionTransaction = 1;
+    cession.CessionTransactions.forEach(cessionTransaction =>
+      this.addCessionTransaction(
+        cessionTransaction,
+        currentCessionTransaction++,
+        currentCession
+      )
+    );
+
+    // Add Retro Cessions
+    this.addRetroCession(cession, currentCession);
+    // Add Pool
+    this.addPool(cession, currentCession);
+
+    // Add Stack
+    this.addStack(cession, currentCession);
   }
 
   addCessionOverride(cessionOverride) {
@@ -94,32 +141,6 @@ export class LifeViewComponent implements OnInit {
     });
   }
 
-  addCession(cession, currentCession) {
-    this.nodes1.push({
-      id: this.cessionId + currentCession.toString(),
-      label: cession.Number.toString(),
-      data: cession
-    });
-
-    this.links1.push({
-      id: this.cessionLinkId + currentCession.toString(),
-      source: this.personId,
-      target: this.cessionId + currentCession.toString()
-    });
-
-    // Add Cession History
-    let currentCessionHistory = 1;
-    cession.CessionHistory.forEach(cessionHistory =>
-      this.addCessionHistory(
-        cessionHistory,
-        currentCessionHistory++,
-        currentCession
-      )
-    );
-    this.addPool(cession, currentCession);
-    this.addStack(cession, currentCession);
-  }
-
   addCessionHistory(cessionHistory, currentCessionHistory, currentCession) {
     this.nodes1.push({
       id: this.cessionHistoryId + currentCessionHistory.toString(),
@@ -129,13 +150,30 @@ export class LifeViewComponent implements OnInit {
     this.links1.push({
       id: this.cessionHistoryLinkId + currentCessionHistory.toString(),
       source: this.cessionId + currentCession.toString(),
-      target: this.cessionHistoryId + currentCession.toString()
+      target: this.cessionHistoryId + currentCessionHistory.toString()
+    });
+  }
+
+  addCessionTransaction(
+    cessionTransaction,
+    currentCessionTransaction,
+    currentCession
+  ) {
+    this.nodes1.push({
+      id: this.cessionTransactionId + currentCessionTransaction.toString(),
+      label: cessionTransaction.Number,
+      data: cessionTransaction
+    });
+    this.links1.push({
+      id: this.cessionTransactionLinkId + currentCessionTransaction.toString(),
+      source: this.cessionId + currentCession.toString(),
+      target: this.cessionTransactionId + currentCessionTransaction.toString()
     });
   }
   addPool(cession, currentCession) {
     this.nodes1.push({
       id: this.poolId + currentCession.toString(),
-      label: cession.Pool.PoolName,
+      label: "Pool: " + cession.Pool.PoolName,
       data: cession.Pool
     });
     this.links1.push({
@@ -148,13 +186,26 @@ export class LifeViewComponent implements OnInit {
   addStack(cession, currentCession) {
     this.nodes1.push({
       id: this.stackId + currentCession.toString(),
-      label: cession.Stack.StackName,
+      label: "Stack: " + cession.Stack.StackName,
       data: cession.Stack
     });
     this.links1.push({
       id: this.stackLinkId + currentCession.toString(),
       source: this.cessionId + currentCession.toString(),
       target: this.stackId + currentCession.toString()
+    });
+  }
+
+  addRetroCession(cession, currentCession) {
+    this.nodes1.push({
+      id: this.cessionRetroCessionId + currentCession.toString(),
+      label: "Retro Cession",
+      data: cession.RetroCession
+    });
+    this.links1.push({
+      id: this.cessionRetroCessionLinkId + currentCession.toString(),
+      source: this.cessionId + currentCession.toString(),
+      target: this.cessionRetroCessionId + currentCession.toString()
     });
   }
 

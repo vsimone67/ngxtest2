@@ -26,8 +26,8 @@
         "NAARToAllocate": 160019.0,
         "CededToAllocate": 180000.0
       },
-      "CessionHistory": [],
-      "CessionTransactions": [],
+      "CessionHistory": [{ "Number": "CessionHistory" }],
+      "CessionTransactions": [{ "Number": "CessionTransaction" }],
       "RetroCession": {
         "RetroTransactions": [],
         "RetroTransactionStaging": []
