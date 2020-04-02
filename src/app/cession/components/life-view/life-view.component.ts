@@ -77,7 +77,7 @@ export class LifeViewComponent implements OnInit {
   addCession(cession, currentCession) {
     this.nodes1.push({
       id: this.cessionId + currentCession.toString(),
-      label: cession.Number.toString(),
+      label: "Cession: " + cession.Number.toString(),
       data: cession
     });
 
@@ -90,11 +90,7 @@ export class LifeViewComponent implements OnInit {
     // Add Cession History
     let currentCessionHistory = 1;
     cession.CessionHistory.forEach(cessionHistory =>
-      this.addCessionHistory(
-        cessionHistory,
-        currentCessionHistory++,
-        currentCession
-      )
+      this.addCessionHistory(cessionHistory, currentCession)
     );
 
     // Add Cession Transaction
@@ -102,7 +98,7 @@ export class LifeViewComponent implements OnInit {
     cession.CessionTransactions.forEach(cessionTransaction =>
       this.addCessionTransaction(
         cessionTransaction,
-        currentCessionTransaction++,
+
         currentCession
       )
     );
@@ -141,33 +137,29 @@ export class LifeViewComponent implements OnInit {
     });
   }
 
-  addCessionHistory(cessionHistory, currentCessionHistory, currentCession) {
+  addCessionHistory(cessionHistory, currentCession) {
     this.nodes1.push({
-      id: this.cessionHistoryId + currentCessionHistory.toString(),
+      id: this.cessionHistoryId + currentCession.toString(),
       label: cessionHistory.Number,
       data: cessionHistory
     });
     this.links1.push({
-      id: this.cessionHistoryLinkId + currentCessionHistory.toString(),
+      id: this.cessionHistoryLinkId + currentCession.toString(),
       source: this.cessionId + currentCession.toString(),
-      target: this.cessionHistoryId + currentCessionHistory.toString()
+      target: this.cessionHistoryId + currentCession.toString()
     });
   }
 
-  addCessionTransaction(
-    cessionTransaction,
-    currentCessionTransaction,
-    currentCession
-  ) {
+  addCessionTransaction(cessionTransaction, currentCession) {
     this.nodes1.push({
-      id: this.cessionTransactionId + currentCessionTransaction.toString(),
+      id: this.cessionTransactionId + currentCession.toString(),
       label: cessionTransaction.Number,
       data: cessionTransaction
     });
     this.links1.push({
-      id: this.cessionTransactionLinkId + currentCessionTransaction.toString(),
+      id: this.cessionTransactionLinkId + currentCession.toString(),
       source: this.cessionId + currentCession.toString(),
-      target: this.cessionTransactionId + currentCessionTransaction.toString()
+      target: this.cessionTransactionId + currentCession.toString()
     });
   }
   addPool(cession, currentCession) {
