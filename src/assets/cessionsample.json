@@ -59,6 +59,87 @@
         "RetroTransactions": [],
         "RetroTransactionStaging": []
       }
+    },
+    {
+      "Number": 1515196677,
+      "Sequence": 1,
+      "CedingCompany": "Pacific Life Insurance Company",
+      "LegalEntity": "Pacific Life Insurance Company",
+
+      "Pool": {
+        "PoolName": "Auto Pool 1997",
+        "PoolType": "Auto",
+        "PlanName": "All Single Life Plans",
+        "BindingType": "Auto",
+        "CountryRatingGroup": "EverestGroup - U"
+      },
+      "Stack": {
+        "StackName": "FlowD USMO SLACtoSLI SLI Retro",
+        "ReinsuranceType": "COINS",
+        "RetainedRatio": 0.95,
+        "NAARToAllocate": 160019.0,
+        "CededToAllocate": 180000.0
+      },
+      "CessionHistory": [{ "Number": "CessionHistory" }],
+      "CessionTransactions": [{ "Number": "CessionTransaction" }],
+      "RetroCession": {
+        "RetroTransactions": [],
+        "RetroTransactionStaging": []
+      }
+    },
+    {
+      "Number": 1515196678,
+      "Sequence": 1,
+      "CedingCompany": "Pacific Life Insurance Company",
+      "LegalEntity": "Pacific Life Insurance Company",
+
+      "Pool": {
+        "PoolName": "Auto Pool 1997",
+        "PoolType": "Auto",
+        "PlanName": "All Single Life Plans",
+        "BindingType": "Auto",
+        "CountryRatingGroup": "EverestGroup - U"
+      },
+      "Stack": {
+        "StackName": "FlowD USMO SLACtoSLI SLI Retro",
+        "ReinsuranceType": "COINS",
+        "RetainedRatio": 0.95,
+        "NAARToAllocate": 160019.0,
+        "CededToAllocate": 180000.0
+      },
+      "CessionHistory": [{ "Number": "CessionHistory" }],
+      "CessionTransactions": [{ "Number": "CessionTransaction" }],
+      "RetroCession": {
+        "RetroTransactions": [],
+        "RetroTransactionStaging": []
+      }
+    },
+    {
+      "Number": 1515196679,
+      "Sequence": 1,
+      "CedingCompany": "Pacific Life Insurance Company",
+      "LegalEntity": "Pacific Life Insurance Company",
+
+      "Pool": {
+        "PoolName": "Auto Pool 1997",
+        "PoolType": "Auto",
+        "PlanName": "All Single Life Plans",
+        "BindingType": "Auto",
+        "CountryRatingGroup": "EverestGroup - U"
+      },
+      "Stack": {
+        "StackName": "FlowD USMO SLACtoSLI SLI Retro",
+        "ReinsuranceType": "COINS",
+        "RetainedRatio": 0.95,
+        "NAARToAllocate": 160019.0,
+        "CededToAllocate": 180000.0
+      },
+      "CessionHistory": [{ "Number": "CessionHistory" }],
+      "CessionTransactions": [{ "Number": "CessionTransaction" }],
+      "RetroCession": {
+        "RetroTransactions": [],
+        "RetroTransactionStaging": []
+      }
     }
   ],
   "Splits": [

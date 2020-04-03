@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import * as shape from "d3-shape";
-import { Edge, Node, ClusterNode } from "@swimlane/ngx-graph";
-import { nodes, links } from "../../services/data1";
-import { Subject, onErrorResumeNext } from "rxjs";
+import { Edge, Node, Layout } from "@swimlane/ngx-graph";
+import { Subject } from "rxjs";
 import { CessionService } from "../../services/cession.service";
 import { Person } from "../../models/cession.model";
+import { DagreNodesOnlyLayout } from "./customLayout";
 @Component({
   selector: "life-view",
   templateUrl: "./life-view.component.html",
@@ -13,23 +13,25 @@ import { Person } from "../../models/cession.model";
 export class LifeViewComponent implements OnInit {
   constructor(private _cessionService: CessionService) {}
 
-  // graph info
-  nodes: Node[] = nodes;
-  links: Edge[] = links;
-  layout: String = "dagre";
+  //layout: String = "dagre";
+  layout: Layout = new DagreNodesOnlyLayout();
   //layout: String = "d3ForceDirected";
   curve: any = shape.curveLinear;
   draggingEnabled: boolean = true;
   panningEnabled: boolean = true;
-  zoomEnabled: boolean = false;
+  zoomEnabled: boolean = true;
   autoZoom: boolean = false;
-  autoCenter: boolean = true;
+  autoCenter: boolean = false;
   update$: Subject<boolean> = new Subject();
   center$: Subject<boolean> = new Subject();
   zoomToFit$: Subject<boolean> = new Subject();
 
-  nodes1: Node[] = [];
-  links1: Edge[] = [];
+  cessionNodes: Node[] = [];
+  cessionLinks: Edge[] = [];
+
+  layoutSettings = {
+    orientation: "TB"
+  };
   // cession info
   cessonsForLife: Person;
 
@@ -57,8 +59,22 @@ export class LifeViewComponent implements OnInit {
     this.ConvertCessionToGraph(this.cessonsForLife);
   }
 
+  centerGraph() {
+    this.zoomToFit$.next(true);
+  }
+  fitGraph() {
+    this.center$.next(true);
+  }
+
+  updateGraph() {
+    this.update$.next(true);
+  }
   ConvertCessionToGraph(person: Person) {
-    this.nodes1.push({ id: this.personId, label: person.Name, data: person });
+    this.cessionNodes.push({
+      id: this.personId,
+      label: person.Name,
+      data: person
+    });
 
     // Add Cessions to Person Node
     let currentCession = 1;
@@ -75,13 +91,13 @@ export class LifeViewComponent implements OnInit {
   }
 
   addCession(cession, currentCession) {
-    this.nodes1.push({
+    this.cessionNodes.push({
       id: this.cessionId + currentCession.toString(),
       label: "Cession: " + cession.Number.toString(),
       data: cession
     });
 
-    this.links1.push({
+    this.cessionLinks.push({
       id: this.cessionLinkId + currentCession.toString(),
       source: this.personId,
       target: this.cessionId + currentCession.toString()
@@ -113,24 +129,24 @@ export class LifeViewComponent implements OnInit {
   }
 
   addCessionOverride(cessionOverride) {
-    this.nodes1.push({
+    this.cessionNodes.push({
       id: this.cessionOverrideId,
       label: cessionOverride.Name,
       data: cessionOverride
     });
-    this.links1.push({
+    this.cessionLinks.push({
       id: this.cessionOverrideLinkId,
       source: this.personId,
       target: this.cessionOverrideId
     });
   }
   addSplit(split, currentSplit) {
-    this.nodes1.push({
+    this.cessionNodes.push({
       id: this.splitId + currentSplit.toString(),
       label: split.Header,
       data: split
     });
-    this.links1.push({
+    this.cessionLinks.push({
       id: this.splitLinkId + currentSplit.toString(),
       source: this.personId,
       target: this.splitId + currentSplit.toString()
@@ -138,12 +154,12 @@ export class LifeViewComponent implements OnInit {
   }
 
   addCessionHistory(cessionHistory, currentCession) {
-    this.nodes1.push({
+    this.cessionNodes.push({
       id: this.cessionHistoryId + currentCession.toString(),
       label: cessionHistory.Number,
       data: cessionHistory
     });
-    this.links1.push({
+    this.cessionLinks.push({
       id: this.cessionHistoryLinkId + currentCession.toString(),
       source: this.cessionId + currentCession.toString(),
       target: this.cessionHistoryId + currentCession.toString()
@@ -151,24 +167,24 @@ export class LifeViewComponent implements OnInit {
   }
 
   addCessionTransaction(cessionTransaction, currentCession) {
-    this.nodes1.push({
+    this.cessionNodes.push({
       id: this.cessionTransactionId + currentCession.toString(),
       label: cessionTransaction.Number,
       data: cessionTransaction
     });
-    this.links1.push({
+    this.cessionLinks.push({
       id: this.cessionTransactionLinkId + currentCession.toString(),
       source: this.cessionId + currentCession.toString(),
       target: this.cessionTransactionId + currentCession.toString()
     });
   }
   addPool(cession, currentCession) {
-    this.nodes1.push({
+    this.cessionNodes.push({
       id: this.poolId + currentCession.toString(),
       label: "Pool: " + cession.Pool.PoolName,
       data: cession.Pool
     });
-    this.links1.push({
+    this.cessionLinks.push({
       id: this.poolLinkId + currentCession.toString(),
       source: this.cessionId + currentCession.toString(),
       target: this.poolId + currentCession.toString()
@@ -176,12 +192,12 @@ export class LifeViewComponent implements OnInit {
   }
 
   addStack(cession, currentCession) {
-    this.nodes1.push({
+    this.cessionNodes.push({
       id: this.stackId + currentCession.toString(),
       label: "Stack: " + cession.Stack.StackName,
       data: cession.Stack
     });
-    this.links1.push({
+    this.cessionLinks.push({
       id: this.stackLinkId + currentCession.toString(),
       source: this.cessionId + currentCession.toString(),
       target: this.stackId + currentCession.toString()
@@ -189,12 +205,12 @@ export class LifeViewComponent implements OnInit {
   }
 
   addRetroCession(cession, currentCession) {
-    this.nodes1.push({
+    this.cessionNodes.push({
       id: this.cessionRetroCessionId + currentCession.toString(),
       label: "Retro Cession",
       data: cession.RetroCession
     });
-    this.links1.push({
+    this.cessionLinks.push({
       id: this.cessionRetroCessionLinkId + currentCession.toString(),
       source: this.cessionId + currentCession.toString(),
       target: this.cessionRetroCessionId + currentCession.toString()
@@ -203,6 +219,6 @@ export class LifeViewComponent implements OnInit {
 
   select($event) {
     console.info($event);
-    alert("NODE SELECTED1");
+    alert("NODE SELECTED");
   }
 }

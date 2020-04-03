@@ -7,8 +7,8 @@
 
   <mat-drawer-content>
     <div class="page">
-      <ngx-graph [links]="links1"
-                 [nodes]="nodes1"
+      <ngx-graph [links]="cessionLinks"
+                 [nodes]="cessionNodes"
                  [layout]="layout"
                  [curve]="curve"
                  [draggingEnabled]="draggingEnabled"
@@ -19,6 +19,7 @@
                  [update$]="update$"
                  [center$]="center$"
                  (select)="select($event)"
+                 [layoutSettings]=layoutSettings
                  [zoomToFit$]="zoomToFit$">
 
         <ng-template #defsTemplate>
@@ -34,16 +35,6 @@
           </svg:marker>
         </ng-template>
 
-        <ng-template #clusterTemplate
-                     let-cluster>
-          <svg:g class="node cluster">
-            <svg:rect rx="5"
-                      ry="5"
-                      [attr.width]="cluster.dimension.width"
-                      [attr.height]="cluster.dimension.height"
-                      [attr.fill]="cluster.data.color" />
-          </svg:g>
-        </ng-template>
 
         <ng-template #nodeTemplate
                      let-node>
@@ -89,6 +80,8 @@
             </svg:text>
           </svg:g>
         </ng-template>
+
+
       </ngx-graph>
     </div>
 
