@@ -7,7 +7,6 @@ export interface Person {
   NumberOfCessions: number;
   Cessions: Cession[];
   Splits: Splits[];
-  CessionOverride: CessionOverride;
 }
 
 export interface Cession {
@@ -19,6 +18,7 @@ export interface Cession {
   CessionHistory: CessionHistory[];
   CessionTransactions: CessionTranaction[];
   RetroCession: RetroCessions[];
+  CessionOverride: CessionOverride;
 }
 
 export interface Pool {

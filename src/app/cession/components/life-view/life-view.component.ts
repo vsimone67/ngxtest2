@@ -76,18 +76,14 @@ export class LifeViewComponent implements OnInit {
       data: person
     });
 
+    // Add Splits to Person Node
+    let currentSplit = 1;
+    person.Splits.forEach(split => this.addSplit(split, currentSplit++));
     // Add Cessions to Person Node
     let currentCession = 1;
     person.Cessions.forEach(cession =>
       this.addCession(cession, currentCession++)
     );
-
-    // Add Splits to Person Node
-    let currentSplit = 1;
-    person.Splits.forEach(split => this.addSplit(split, currentSplit++));
-
-    // Add Cession Overide
-    this.addCessionOverride(person.CessionOverride);
   }
 
   addCession(cession, currentCession) {
@@ -116,18 +112,22 @@ export class LifeViewComponent implements OnInit {
 
     // Add Stack
     this.addStack(cession, currentCession);
+
+    // Add Cession Override
+    // Add Cession Overide
+    this.addCessionOverride(cession.CessionOverride, currentCession);
   }
 
-  addCessionOverride(cessionOverride) {
+  addCessionOverride(cessionOverride, currentCession) {
     this.cessionNodes.push({
-      id: this.cessionOverrideId,
-      label: cessionOverride.Name,
+      id: this.cessionOverrideId + currentCession.toString(),
+      label: "Override",
       data: cessionOverride
     });
     this.cessionLinks.push({
-      id: this.cessionOverrideLinkId,
-      source: this.personId,
-      target: this.cessionOverrideId
+      id: this.cessionOverrideLinkId + currentCession.toString(),
+      source: this.cessionId + currentCession.toString(),
+      target: this.cessionOverrideId + currentCession.toString()
     });
   }
   addSplit(split, currentSplit) {
