@@ -104,20 +104,10 @@ export class LifeViewComponent implements OnInit {
     });
 
     // Add Cession History
-    let currentCessionHistory = 1;
-    cession.CessionHistory.forEach(cessionHistory =>
-      this.addCessionHistory(cessionHistory, currentCession)
-    );
+    this.addCessionHistory(cession.CessionHistory, currentCession);
 
     // Add Cession Transaction
-    let currentCessionTransaction = 1;
-    cession.CessionTransactions.forEach(cessionTransaction =>
-      this.addCessionTransaction(
-        cessionTransaction,
-
-        currentCession
-      )
-    );
+    this.addCessionTransaction(cession.CessionTransactions, currentCession);
 
     // Add Retro Cessions
     this.addRetroCession(cession, currentCession);
@@ -156,7 +146,7 @@ export class LifeViewComponent implements OnInit {
   addCessionHistory(cessionHistory, currentCession) {
     this.cessionNodes.push({
       id: this.cessionHistoryId + currentCession.toString(),
-      label: cessionHistory.Number,
+      label: "History",
       data: cessionHistory
     });
     this.cessionLinks.push({
@@ -169,7 +159,7 @@ export class LifeViewComponent implements OnInit {
   addCessionTransaction(cessionTransaction, currentCession) {
     this.cessionNodes.push({
       id: this.cessionTransactionId + currentCession.toString(),
-      label: cessionTransaction.Number,
+      label: "Transactions",
       data: cessionTransaction
     });
     this.cessionLinks.push({
@@ -181,7 +171,7 @@ export class LifeViewComponent implements OnInit {
   addPool(cession, currentCession) {
     this.cessionNodes.push({
       id: this.poolId + currentCession.toString(),
-      label: "Pool: " + cession.Pool.PoolName,
+      label: "Pool",
       data: cession.Pool
     });
     this.cessionLinks.push({
@@ -194,7 +184,7 @@ export class LifeViewComponent implements OnInit {
   addStack(cession, currentCession) {
     this.cessionNodes.push({
       id: this.stackId + currentCession.toString(),
-      label: "Stack: " + cession.Stack.StackName,
+      label: "Stack",
       data: cession.Stack
     });
     this.cessionLinks.push({
@@ -207,7 +197,7 @@ export class LifeViewComponent implements OnInit {
   addRetroCession(cession, currentCession) {
     this.cessionNodes.push({
       id: this.cessionRetroCessionId + currentCession.toString(),
-      label: "Retro Cession",
+      label: "Retro",
       data: cession.RetroCession
     });
     this.cessionLinks.push({
