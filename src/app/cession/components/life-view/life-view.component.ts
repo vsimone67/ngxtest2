@@ -4,7 +4,7 @@ import { Edge, Node, Layout } from "@swimlane/ngx-graph";
 import { Subject } from "rxjs";
 import { CessionService } from "../../services/cession.service";
 import { Person } from "../../models/cession.model";
-import { DagreNodesOnlyLayout } from "./customLayout";
+import { DagreNodesOnlyLayout } from "./DagreNodesOnlyLayout";
 @Component({
   selector: "life-view",
   templateUrl: "./life-view.component.html",
@@ -87,12 +87,14 @@ export class LifeViewComponent implements OnInit {
   }
 
   addCession(cession, currentCession) {
+    // Add Cession Info
     this.cessionNodes.push({
       id: this.cessionId + currentCession.toString(),
       label: "Cession: " + cession.Number.toString(),
       data: cession
     });
 
+    // Add Cession Link
     this.cessionLinks.push({
       id: this.cessionLinkId + currentCession.toString(),
       source: this.personId,
@@ -113,34 +115,8 @@ export class LifeViewComponent implements OnInit {
     // Add Stack
     this.addStack(cession, currentCession);
 
-    // Add Cession Override
     // Add Cession Overide
     this.addCessionOverride(cession.CessionOverride, currentCession);
-  }
-
-  addCessionOverride(cessionOverride, currentCession) {
-    this.cessionNodes.push({
-      id: this.cessionOverrideId + currentCession.toString(),
-      label: "Override",
-      data: cessionOverride
-    });
-    this.cessionLinks.push({
-      id: this.cessionOverrideLinkId + currentCession.toString(),
-      source: this.cessionId + currentCession.toString(),
-      target: this.cessionOverrideId + currentCession.toString()
-    });
-  }
-  addSplit(split, currentSplit) {
-    this.cessionNodes.push({
-      id: this.splitId + currentSplit.toString(),
-      label: split.Header,
-      data: split
-    });
-    this.cessionLinks.push({
-      id: this.splitLinkId + currentSplit.toString(),
-      source: this.personId,
-      target: this.splitId + currentSplit.toString()
-    });
   }
 
   addCessionHistory(cessionHistory, currentCession) {
@@ -168,16 +144,17 @@ export class LifeViewComponent implements OnInit {
       target: this.cessionTransactionId + currentCession.toString()
     });
   }
-  addPool(cession, currentCession) {
+
+  addRetroCession(cession, currentCession) {
     this.cessionNodes.push({
-      id: this.poolId + currentCession.toString(),
-      label: "Pool",
-      data: cession.Pool
+      id: this.cessionRetroCessionId + currentCession.toString(),
+      label: "Retro",
+      data: cession.RetroCession
     });
     this.cessionLinks.push({
-      id: this.poolLinkId + currentCession.toString(),
+      id: this.cessionRetroCessionLinkId + currentCession.toString(),
       source: this.cessionId + currentCession.toString(),
-      target: this.poolId + currentCession.toString()
+      target: this.cessionRetroCessionId + currentCession.toString()
     });
   }
 
@@ -194,16 +171,41 @@ export class LifeViewComponent implements OnInit {
     });
   }
 
-  addRetroCession(cession, currentCession) {
+  addPool(cession, currentCession) {
     this.cessionNodes.push({
-      id: this.cessionRetroCessionId + currentCession.toString(),
-      label: "Retro",
-      data: cession.RetroCession
+      id: this.poolId + currentCession.toString(),
+      label: "Pool",
+      data: cession.Pool
     });
     this.cessionLinks.push({
-      id: this.cessionRetroCessionLinkId + currentCession.toString(),
+      id: this.poolLinkId + currentCession.toString(),
       source: this.cessionId + currentCession.toString(),
-      target: this.cessionRetroCessionId + currentCession.toString()
+      target: this.poolId + currentCession.toString()
+    });
+  }
+  addCessionOverride(cessionOverride, currentCession) {
+    this.cessionNodes.push({
+      id: this.cessionOverrideId + currentCession.toString(),
+      label: "Override",
+      data: cessionOverride
+    });
+    this.cessionLinks.push({
+      id: this.cessionOverrideLinkId + currentCession.toString(),
+      source: this.cessionId + currentCession.toString(),
+      target: this.cessionOverrideId + currentCession.toString()
+    });
+  }
+
+  addSplit(split, currentSplit) {
+    this.cessionNodes.push({
+      id: this.splitId + currentSplit.toString(),
+      label: split.Header,
+      data: split
+    });
+    this.cessionLinks.push({
+      id: this.splitLinkId + currentSplit.toString(),
+      source: this.personId,
+      target: this.splitId + currentSplit.toString()
     });
   }
 
