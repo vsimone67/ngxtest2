@@ -209,6 +209,6 @@ export class LifeViewComponent implements OnInit {
 
   select($event) {
     console.info($event);
-    alert("NODE SELECTED");
+    alert("NODE SELECTED, Label: " + $event.label);
   }
 }

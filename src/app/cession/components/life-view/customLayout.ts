@@ -70,9 +70,9 @@ export class DagreNodesOnlyLayout implements Layout {
       };
 
       // Make the person node show up in the middle
-      if (node.id === "person") {
-        node.position.x = dagreNode.x / 2;
-      }
+      // if (node.id === "person") {
+      //   node.position.x = dagreNode.x / 2;
+      // }
       node.dimension = {
         width: dagreNode.width,
         height: dagreNode.height
