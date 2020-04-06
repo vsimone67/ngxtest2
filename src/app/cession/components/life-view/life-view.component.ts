@@ -8,7 +8,7 @@ import { DagreNodesOnlyLayout } from "./DagreNodesOnlyLayout";
 @Component({
   selector: "life-view",
   templateUrl: "./life-view.component.html",
-  styleUrls: ["./life-view.component.css"]
+  styleUrls: ["./life-view.component.css"],
 })
 export class LifeViewComponent implements OnInit {
   constructor(private _cessionService: CessionService) {}
@@ -30,7 +30,7 @@ export class LifeViewComponent implements OnInit {
   cessionLinks: Edge[] = [];
 
   layoutSettings = {
-    orientation: "TB"
+    orientation: "TB",
   };
   // cession info
   cessonsForLife: Person;
@@ -73,15 +73,15 @@ export class LifeViewComponent implements OnInit {
     this.cessionNodes.push({
       id: this.personId,
       label: person.Name,
-      data: person
+      data: person,
     });
 
     // Add Splits to Person Node
     let currentSplit = 1;
-    person.Splits.forEach(split => this.addSplit(split, currentSplit++));
+    person.Splits.forEach((split) => this.addSplit(split, currentSplit++));
     // Add Cessions to Person Node
     let currentCession = 1;
-    person.Cessions.forEach(cession =>
+    person.Cessions.forEach((cession) =>
       this.addCession(cession, currentCession++)
     );
   }
@@ -91,14 +91,14 @@ export class LifeViewComponent implements OnInit {
     this.cessionNodes.push({
       id: this.cessionId + currentCession.toString(),
       label: "Cession: " + cession.Number.toString(),
-      data: cession
+      data: cession,
     });
 
     // Add Cession Link
     this.cessionLinks.push({
       id: this.cessionLinkId + currentCession.toString(),
       source: this.personId,
-      target: this.cessionId + currentCession.toString()
+      target: this.cessionId + currentCession.toString(),
     });
 
     // Add Cession History
@@ -123,12 +123,12 @@ export class LifeViewComponent implements OnInit {
     this.cessionNodes.push({
       id: this.cessionHistoryId + currentCession.toString(),
       label: "History",
-      data: cessionHistory
+      data: cessionHistory,
     });
     this.cessionLinks.push({
       id: this.cessionHistoryLinkId + currentCession.toString(),
       source: this.cessionId + currentCession.toString(),
-      target: this.cessionHistoryId + currentCession.toString()
+      target: this.cessionHistoryId + currentCession.toString(),
     });
   }
 
@@ -136,12 +136,12 @@ export class LifeViewComponent implements OnInit {
     this.cessionNodes.push({
       id: this.cessionTransactionId + currentCession.toString(),
       label: "Transactions",
-      data: cessionTransaction
+      data: cessionTransaction,
     });
     this.cessionLinks.push({
       id: this.cessionTransactionLinkId + currentCession.toString(),
       source: this.cessionId + currentCession.toString(),
-      target: this.cessionTransactionId + currentCession.toString()
+      target: this.cessionTransactionId + currentCession.toString(),
     });
   }
 
@@ -149,12 +149,12 @@ export class LifeViewComponent implements OnInit {
     this.cessionNodes.push({
       id: this.cessionRetroCessionId + currentCession.toString(),
       label: "Retro",
-      data: cession.RetroCession
+      data: cession.RetroCession,
     });
     this.cessionLinks.push({
       id: this.cessionRetroCessionLinkId + currentCession.toString(),
       source: this.cessionId + currentCession.toString(),
-      target: this.cessionRetroCessionId + currentCession.toString()
+      target: this.cessionRetroCessionId + currentCession.toString(),
     });
   }
 
@@ -162,12 +162,12 @@ export class LifeViewComponent implements OnInit {
     this.cessionNodes.push({
       id: this.stackId + currentCession.toString(),
       label: "Stack",
-      data: cession.Stack
+      data: cession.Stack,
     });
     this.cessionLinks.push({
       id: this.stackLinkId + currentCession.toString(),
       source: this.cessionId + currentCession.toString(),
-      target: this.stackId + currentCession.toString()
+      target: this.stackId + currentCession.toString(),
     });
   }
 
@@ -175,24 +175,24 @@ export class LifeViewComponent implements OnInit {
     this.cessionNodes.push({
       id: this.poolId + currentCession.toString(),
       label: "Pool",
-      data: cession.Pool
+      data: cession.Pool,
     });
     this.cessionLinks.push({
       id: this.poolLinkId + currentCession.toString(),
       source: this.cessionId + currentCession.toString(),
-      target: this.poolId + currentCession.toString()
+      target: this.poolId + currentCession.toString(),
     });
   }
   addCessionOverride(cessionOverride, currentCession) {
     this.cessionNodes.push({
       id: this.cessionOverrideId + currentCession.toString(),
       label: "Override",
-      data: cessionOverride
+      data: cessionOverride,
     });
     this.cessionLinks.push({
       id: this.cessionOverrideLinkId + currentCession.toString(),
       source: this.cessionId + currentCession.toString(),
-      target: this.cessionOverrideId + currentCession.toString()
+      target: this.cessionOverrideId + currentCession.toString(),
     });
   }
 
@@ -200,12 +200,12 @@ export class LifeViewComponent implements OnInit {
     this.cessionNodes.push({
       id: this.splitId + currentSplit.toString(),
       label: split.Header,
-      data: split
+      data: split,
     });
     this.cessionLinks.push({
       id: this.splitLinkId + currentSplit.toString(),
       source: this.personId,
-      target: this.splitId + currentSplit.toString()
+      target: this.splitId + currentSplit.toString(),
     });
   }
 
